@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>GoL</title>
+      <meta charset="UTF-8">
+
+      <link rel="stylesheet" href="css/style.css">
+
+      <!-- font awesome -->
+      <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+   </head>
+
+   <body>
+      <h1 id="txTitle">Conway's Game of Life</h1>
+      <hr>
+
+      <div id="dishDiv">
+         <canvas id="dish" width="601" height="401">
+            This browser does not support HTML5 canvas. Try using
+            <a href="https://www.google.com/chrome/browser/">
+               Google Chrome instead.
+            </a>
+         </canvas>
+      </div>
+      <hr>
+
+      <div class="controls ct-action">
+         <button id="btPause" type="button" name="btPause"><i class="fas fa-pause"></i></button>
+         <button id="btPlay" type="button" name="btPlay"><i class="fas fa-play"></i></button>
+         <button id="btStep" type="button" name="btStep"><i class="fas fa-step-forward"></i></button><br />
+         <button id="btReset" type="button" name="btReset"><i class="fas fa-trash-alt"></i></button>
+      </div>
+
+      <div class="controls ct-group">
+         Game Speed (steps per second)<br />
+         <form class="ct-speed" action="index.html" method="post">
+            <button id="btSpeed01" type="button" name="button">1</button>
+            <button id="btSpeed10" type="button" name="button">10</button>
+            <button id="btSpeed20" type="button" name="button">20</button>
+            <button id="btSpeed30" type="button" name="button">30</button>
+         </form>
+         
+      </div>
+
+      <div class="controls ct-presets">
+         Pattern Presets<br />
+         <form class="form-presets" action="index.html" method="post">
+            <select id="sl-presets" class="select-preset" name="preset">
+               <option value="poToad">Toad</option>
+               <option value="poGibberish">Gibberish</option>
+               <option value="poGGGun">Gosper Glider Gun</option>
+            </select>
+            <button id="btLoadPreset" type="button" name="button">Load Preset</button>
+         </form>
+      </div>
+
+      <br />
+      <hr>
+      <h3>Task list:</h3>
+      <ul>
+         <li class="_done">Fix app in Firefox (Only works in Chrome)
+            <ul>
+               <li class="_done">clicking a cell doesn't draw. Return error</li>
+               <li class="_done">Pause button causes stepPlayer not defined error</li>
+            </ul>
+            
+         </li>
+         <li class="_done">Allow drawing cells by mousedrag</li>
+         <ul>
+            <li class="_done">Allow draw by single click as well</li>
+         </ul>
+         <li class="_done">Optimize canvas rendering
+            <ul>
+               <li class="_done">Cell Fill rendering now only renders individual cell and not its grid bounding box (cuts rendering in half)</li>
+            </ul></li>
+         <li class="todo">Allow grid and cell resizing</li>
+         <li class="_done">Add symbolic coloring to inactive border cells</li>
+         <li class="_done">Prevent canvas interact from registering clicks on border cells</li>
+         <li class="_done">Use dropdown to load presets as opposed to individual buttons</li>
+         <li class="todo">Allow saving and loading custom presets</li>
+         <li class="_done">
+            Allow game speed to be set during active simulation
+            <ul>
+               Improve performance for higher speeds (currently feels inactive.)
+            </ul>
+         </li>
+         <li class="_cnr">Fix bug where game speed can only be set after simulation has run at least once</li>
+         <li class="_done">Change border and button color depending on whether or not sim is running</li>
+         <li class="todo">Allow toggling of grid lines</li>
+         <li class="todo">Allow color scheme customization</li>
+         <li class="todo">Add additional presets</li>
+         <li class="todo">Allow adding of custom presets</li>
+         <li class="todo">Add a "random" preset</li>
+         <li class="todo">Add zoom function</li>
+         <li class="_done">Optimize calculations to only run updateRender() on changed cells as opposed to entire field
+            <ul>
+               <li class="_done">updateRender() now uses censusManager.toggleList[] to determine which cells to update rather than updating entire field</li>
+               <li class="_done">loadPreset() correctly ignores toggle list and updates entire canvas when updating the render</li>
+            </ul></li>
+         <li class="todo">Allow zooming and panning after optimizing game calculator and renderer</li>
+         <li class="todo">Investigate and fix bugs associated with speed control click timing</li>
+         <li class="todo">Calculations are not correct on cells adjacent to border... investigate and fix</li>
+         <li class="_done">Fix fuzziness in pixels</li>
+         <li class="todo">Highlight active speed mode</li>
+      </ul>
+
+      <script src="script/gol_simple.js"></script>
+
+   </body>
+</html>

@@ -1,0 +1,73 @@
+#txTitle {
+  width:                420px;
+  margin-left:          auto;
+  margin-right:         auto;
+  /*border:             1px dashed red;*/
+  text-align:           center;
+}
+
+/*#dish {
+  border:               2px dashed #FF00FF;
+}*/
+
+#dishDiv {
+  width:                602px;
+  margin-left:          auto;
+  margin-right:         auto;
+  /*border:             2px solid green;*/
+  padding:              0;
+}
+
+.controls {
+   width:               400px;
+   margin-left:         auto;
+   margin-right:        auto;
+}
+
+.ct-group, .ct-action, .ct-presets {
+   border:              1px solid #BBBBBB;
+   border-radius:       4px;
+   padding:             4px;
+   margin-top:          4px;
+   margin-bottom:       4px;
+}
+
+.ct-action {
+
+   text-align:          center;
+}
+
+.ct-action button{
+  height:               38px;
+  width:                48px;
+  font-size:            16px;
+}
+
+button {
+  margin-bottom:       4px;
+  background-color:    #EEE;
+  border:              1px solid #AAA;
+  border-radius:       4px;
+}
+
+button:focus {
+  outline-width:      0;
+}
+
+button:active {
+  background-color:    #DDF;
+}
+
+.todo {
+   color:               blue;
+}
+
+._done {
+   color:               green;
+   text-decoration:     line-through;
+}
+
+._cnr {
+  color:                orange;
+  text-decoration:      line-through;
+}
