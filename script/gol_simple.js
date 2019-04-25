@@ -275,16 +275,16 @@ oCanv.onmousemove = function (event) {
 
 function toggleCell(cellX, cellY) {
       // get current X column and make a temporary copy of it
-      var tempX = [];
+      var tempX = censusManager.cellGrid[cellX];
       
-      for (var i = 0; i < grid_sizeY; i++)
-            tempX[i] = censusManager.cellGrid[cellX][i];
 
       tempX[cellY] = !(censusManager.cellGrid[cellX][cellY]);
 
       censusManager.cellGrid[cellX] = tempX;
+      console.log("toggs")
 
-      updateRender(canvX, censusManager);
+
+      updateRender(canvX, censusManager, false);
 }
 
 //==========================================================
@@ -434,13 +434,13 @@ var presetPatterns = {
 }
 
 // some toyz
-var m = ["000000",
-"011111",
-"100001",
-"000001",
-"100010",
-"001000",
-"000000"]
+// var m = ["000000",
+// "011111",
+// "100001",
+// "000001",
+// "100010",
+// "001000",
+// "000000"]
 
 function arrOfStrToPData(arr) {
       // converts an array of binary strings like:
@@ -486,17 +486,6 @@ btLoadPreset.onclick = function () {
             if (q.listValue == slPreset.value)
                   loadPreset(censusManager,q.patternData,q.offsetX,q.offsetY);
       })
-
-      // if (slPreset.value == "poToad")
-      //       p = "presetPatterns.ppToad";
-
-      // if (slPreset.value == "poGibberish")
-      //       p = "presetPatterns.ppGibberish";
-
-      // if (slPreset.value == "poGGGun")
-      //       p = "presetPatterns.ppGGGun";
-
-      // loadPreset(censusManager,p.patternData,p.offsetX,p.offsetY);
 }
 
 //=====================================================================
