@@ -32,7 +32,7 @@ const buttonColor = document.getElementById("btPlay").style.color;
 
 
 var censusManager = {
-      cellGrid: [][],        // Array of X columns
+      cellGrid: [],        // Array of X columns
      // cellGridY: [],       // Nested Array of individual Y cells in an X column
       toggleList: [],      // list of cells to be toggled on next step
       playSpeed: 30,       // steps per second
@@ -123,7 +123,7 @@ function resetGrid(censusManager) {
             for (var y = 0; y < grid_sizeY; y++) {
                  yGrid.push(false);
             }
-            censusManager.cellGrid[x].push(yGrid);
+            censusManager.cellGrid[x]=yGrid;
             yGrid = [];
       }
 }
@@ -335,6 +335,7 @@ btReset.onclick = function () {
             censusManager.playActive = false;
       }
       resetGrid(censusManager);
+      updateRender(canvX,censusManager, false);
 }
 
 btStep.onclick = function () {
