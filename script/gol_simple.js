@@ -301,14 +301,23 @@ btReset = document.getElementById("btReset");
 slPreset = document.getElementById("sl-presets");
 btLoadPreset = document.getElementById("btLoadPreset");
 
+btSpeed30.style.backgroundColor = borderColorPlay;
+
 var outputX = function () {
       runSequence(censusManager);
 }
 
-function setPlayMode(playMode) {
-      if (playMode) stepPlayer = setInterval(outputX, 1000 / censusManager.playSpeed);
+function setPlayMode(bRunSimulation) {
+      if (bRunSimulation)
+            stepPlayer = setInterval(outputX, 1000 / censusManager.playSpeed);
       else if (typeof stepPlayer !== 'undefined')
             clearInterval(stepPlayer);
+}
+
+function setSpeedAtPlay(speed) {
+      setPlayMode(false);
+      censusManager.playSpeed = speed;
+      setPlayMode(true);
 }
 
 btPlay.onclick = function () {
@@ -351,34 +360,47 @@ btStep.onclick = function () {
       }
 }
 
-function setSpeedAtPlay(speed) {
-      setPlayMode(false);
-      censusManager.playSpeed = speed;
-      setPlayMode(true);
-}
-
 btSpeed01.onclick = function () {
+      this.style.backgroundColor = borderColorPlay;
+      resetSHL([btSpeed10,btSpeed20,btSpeed30]);
       if (censusManager.playActive)
             setSpeedAtPlay(1);
       else censusManager.playSpeed = 1;
 }
 
 btSpeed10.onclick = function () {
+      resetSHL([btSpeed01,btSpeed20,btSpeed30]);
+      this.style.backgroundColor = borderColorPlay;
       if (censusManager.playActive)
             setSpeedAtPlay(10);
       else censusManager.playSpeed = 10;
 }
 
 btSpeed20.onclick = function () {
+      this.style.backgroundColor = borderColorPlay;
+      resetSHL([btSpeed01,btSpeed10,btSpeed30]);
       if (censusManager.playActive)
             setSpeedAtPlay(20);
       else censusManager.playSpeed = 20;
 }
 
 btSpeed30.onclick = function () {
+      this.style.backgroundColor = borderColorPlay;
+      resetSHL([btSpeed01,btSpeed10,btSpeed20]);
       if (censusManager.playActive)
             setSpeedAtPlay(30);
       else censusManager.playSpeed = 30;
+}
+
+function resetSHL(iList){
+      // list of items to set bg color      
+      if (!Array.isArray(iList)) {
+            console.warning("gol_simple.js: no overload for resetSHL(iList) for passed arguments");
+            return false;
+      }
+      iList.forEach(el=>{
+            el.style.backgroundColor=buttonColor;
+      })
 }
 
 //*******************************
