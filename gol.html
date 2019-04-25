@@ -54,56 +54,6 @@
          </form>
       </div>
 
-      <br />
-      <hr>
-      <h3>Task list:</h3>
-      <ul>
-         <li class="_done">Fix app in Firefox (Only works in Chrome)
-            <ul>
-               <li class="_done">clicking a cell doesn't draw. Return error</li>
-               <li class="_done">Pause button causes stepPlayer not defined error</li>
-            </ul>
-            
-         </li>
-         <li class="_done">Allow drawing cells by mousedrag</li>
-         <ul>
-            <li class="_done">Allow draw by single click as well</li>
-         </ul>
-         <li class="_done">Optimize canvas rendering
-            <ul>
-               <li class="_done">Cell Fill rendering now only renders individual cell and not its grid bounding box (cuts rendering in half)</li>
-            </ul></li>
-         <li class="todo">Allow grid and cell resizing</li>
-         <li class="_done">Add symbolic coloring to inactive border cells</li>
-         <li class="_done">Prevent canvas interact from registering clicks on border cells</li>
-         <li class="_done">Use dropdown to load presets as opposed to individual buttons</li>
-         <li class="todo">Allow saving and loading custom presets</li>
-         <li class="_done">
-            Allow game speed to be set during active simulation
-            <ul>
-               Improve performance for higher speeds (currently feels inactive.)
-            </ul>
-         </li>
-         <li class="_cnr">Fix bug where game speed can only be set after simulation has run at least once</li>
-         <li class="_done">Change border and button color depending on whether or not sim is running</li>
-         <li class="todo">Allow toggling of grid lines</li>
-         <li class="todo">Allow color scheme customization</li>
-         <li class="todo">Add additional presets</li>
-         <li class="todo">Allow adding of custom presets</li>
-         <li class="todo">Add a "random" preset</li>
-         <li class="todo">Add zoom function</li>
-         <li class="_done">Optimize calculations to only run updateRender() on changed cells as opposed to entire field
-            <ul>
-               <li class="_done">updateRender() now uses censusManager.toggleList[] to determine which cells to update rather than updating entire field</li>
-               <li class="_done">loadPreset() correctly ignores toggle list and updates entire canvas when updating the render</li>
-            </ul></li>
-         <li class="todo">Allow zooming and panning after optimizing game calculator and renderer</li>
-         <li class="todo">Investigate and fix bugs associated with speed control click timing</li>
-         <li class="todo">Calculations are not correct on cells adjacent to border... investigate and fix</li>
-         <li class="_done">Fix fuzziness in pixels</li>
-         <li class="todo">Highlight active speed mode</li>
-      </ul>
-
       <script src="script/gol_simple.js"></script>
 
    </body>
