@@ -20,15 +20,15 @@ if (oCanv.getContext)
 //*******************************
 
 // game settings
-const GRID_SIZEX = 60;                 // number of cells across x access
-const GRID_SIZEY = 40;                 // number of cells across y access
-const CELL_SIZE = 10;                  // size of cells in pixels
-const GRID_COLOR = '#FFFFFF';          // color of grid lines
-const GRID_BG = "#DDDDEE";               // color of background
-const CELL_COLOR = '#0000FF';          // color of live cells
-const BORDER_COLOR_PAUSED = "#000";    // color of non-interactible cell border when paused
-const BORDER_COLOR_PLAY = "#8F8";      // color of non-interactible cell border when unpaused
-const BUTTON_COLOR = document.getElementById("btPlay").style.color;
+const grid_sizeX = 60;                 // number of cells across x access
+const grid_sizeY = 40;                 // number of cells across y access
+const cell_size = 10;                  // size of cells in pixels
+const gridColor = '#FFFFFF';          // color of grid lines
+const gridBG = "#EEF";               // color of background
+const cellColor = '#338';          // color of live cells
+const borderColorPaused = "#303";    // color of non-interactible cell border when paused
+const borderColorPlay = "#9C9";      // color of non-interactible cell border when unpaused
+const buttonColor = document.getElementById("btPlay").style.color;
 
 
 var censusManager = {
@@ -58,8 +58,8 @@ function runSequence(censusManager = censusManager) {
 function calcNextStep(censusManager = censusManager) {
       censusManager.toggleList = [];
 
-      for (var x = 1; x < GRID_SIZEX - 1; x++) {
-            for (var y = 1; y < GRID_SIZEY - 1; y++) {
+      for (var x = 1; x < grid_sizeX - 1; x++) {
+            for (var y = 1; y < grid_sizeY - 1; y++) {
                   // initialize live neighbor count
                   var liveAdj = 0;
 
@@ -88,7 +88,7 @@ function calcNextStep(censusManager = censusManager) {
 function loadStep(censusManager, preset = censusManager.toggleList, canvS = canvX) {
       if (!Array.isArray(preset)) return false;
 
-      for (var x = 0; x < GRID_SIZEX; x++)
+      for (var x = 0; x < grid_sizeX; x++)
             preset.forEach(presetElement => {
                   if (presetElement[0] == x)
                         censusManager.cellGrid[x][presetElement[1]] = !censusManager.cellGrid[x][presetElement[1]];
@@ -102,10 +102,10 @@ function loadPreset(censusManager, preset, offsetX = 0, offsetY = 0, canvS = can
       resetGrid(censusManager);
       if (!Array.isArray(preset)) return false;
 
-      for (var x = 0; x < GRID_SIZEX; x++) {
+      for (var x = 0; x < grid_sizeX; x++) {
             // create a temporary column (x) to insert into array later
             var tempX = [];
-            for (var i = 0; i < GRID_SIZEX; i++) { tempX[i] = false; }            
+            for (var i = 0; i < grid_sizeX; i++) { tempX[i] = false; }            
 
             preset.forEach(pElement => { // for each element (coordinate) in the preset
                   // if this coord's x value is the current x row
@@ -121,8 +121,8 @@ function loadPreset(censusManager, preset, offsetX = 0, offsetY = 0, canvS = can
 
 // creates a blank field
 function resetGrid(censusManager, canvS = canvX) {
-      for (var x = 0; x < GRID_SIZEX; x++) {
-            for (var y = 0; y < GRID_SIZEY; y++) {
+      for (var x = 0; x < grid_sizeX; x++) {
+            for (var y = 0; y < grid_sizeY; y++) {
                   censusManager.cellGridY[y] = false;
             }
             censusManager.cellGrid[x] = censusManager.cellGridY;
@@ -142,8 +142,8 @@ function updateRender(canvS, censusManager, checkToggleList) {
                   })
             }
       else
-            for (var x = 1; x < GRID_SIZEX - 1; x++) {
-                  for (var y = 1; y < GRID_SIZEY - 1; y++) {
+            for (var x = 1; x < grid_sizeX - 1; x++) {
+                  for (var y = 1; y < grid_sizeY - 1; y++) {
                         if (censusManager.cellGrid[x][y])
                               cFillCell(canvS, x, y);
                         else
@@ -151,7 +151,7 @@ function updateRender(canvS, censusManager, checkToggleList) {
                   }
             }
 
-      drawGrid(GRID_COLOR);
+      drawGrid(gridColor);
 }
 
 //*******************************
@@ -178,57 +178,57 @@ var ppGGGun = [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6
 //==========================================================
 
 // grid ------------------
-canvX.strokeStyle = GRID_COLOR;
+canvX.strokeStyle = gridColor;
 
 drawGrid("black");
 
 function drawGrid(cVal) {
       canvX.strokeStyle = cVal;
 
-      for (var i = 1; i <= GRID_SIZEY - 1; i++) {
+      for (var i = 1; i <= grid_sizeY - 1; i++) {
             canvX.beginPath();
-            canvX.moveTo(CELL_SIZE + .5, i * CELL_SIZE + .5);
-            canvX.lineTo((GRID_SIZEX - 1) * CELL_SIZE + .5, i * CELL_SIZE + .5);
+            canvX.moveTo(cell_size + .5, i * cell_size + .5);
+            canvX.lineTo((grid_sizeX - 1) * cell_size + .5, i * cell_size + .5);
             canvX.stroke();
       }
 
-      for (var i = 1; i <= GRID_SIZEX - 1; i++) {
+      for (var i = 1; i <= grid_sizeX - 1; i++) {
             canvX.beginPath();
-            canvX.moveTo(i * CELL_SIZE + .5, CELL_SIZE + 0.5);
-            canvX.lineTo(i * CELL_SIZE + .5, (GRID_SIZEY - 1) * CELL_SIZE + .5);
+            canvX.moveTo(i * cell_size + .5, cell_size + 0.5);
+            canvX.lineTo(i * cell_size + .5, (grid_sizeY - 1) * cell_size + .5);
             canvX.stroke();
       }
 }
 
-colorBorder(BORDER_COLOR_PAUSED);
+colorBorder(borderColorPaused);
 
 // color noninteractive border cells
 function colorBorder(cVal) {
       canvX.fillStyle = cVal;
-      canvX.fillRect(0, 0, CELL_SIZE * GRID_SIZEX, CELL_SIZE);
-      canvX.fillRect(0, 0, CELL_SIZE, GRID_SIZEY * CELL_SIZE);
-      canvX.fillRect(0, CELL_SIZE * (GRID_SIZEY - 1), CELL_SIZE * GRID_SIZEX, GRID_SIZEY * CELL_SIZE);
-      canvX.fillRect((GRID_SIZEX - 1) * CELL_SIZE, 0, CELL_SIZE * GRID_SIZEX, GRID_SIZEY * CELL_SIZE);
+      canvX.fillRect(0, 0, cell_size * grid_sizeX, cell_size);
+      canvX.fillRect(0, 0, cell_size, grid_sizeY * cell_size);
+      canvX.fillRect(0, cell_size * (grid_sizeY - 1), cell_size * grid_sizeX, grid_sizeY * cell_size);
+      canvX.fillRect((grid_sizeX - 1) * cell_size, 0, cell_size * grid_sizeX, grid_sizeY * cell_size);
 }
 
 // Renders a cell at x, y
-function cFillCell(canv, x, y, color = CELL_COLOR) {
+function cFillCell(canv, x, y, color = cellColor) {
       canv.fillStyle = color;
-      canv.fillRect(x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 1, CELL_SIZE - 1);
+      canv.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
 }
 
 // Unrenders a cell at x, y
-function cClearCell(canv, x, y, color = GRID_BG) {
+function cClearCell(canv, x, y, color = gridBG) {
       canv.fillStyle = color;
-      canv.fillRect(x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 1, CELL_SIZE - 1);
+      canv.fillRect(x * cell_size + 1, y * cell_size + 1, cell_size - 1, cell_size - 1);
 }
 
 // Unrenders all cells
 function cClearAllCells(canv) {
-      for (var i = 1; i <= GRID_SIZEX - 2; i++) {
-            for (var j = 1; j <= GRID_SIZEY - 2; j++) {
-                  canv.fillStyle = GRID_BG;
-                  canv.fillRect(i * CELL_SIZE + .5, j * CELL_SIZE + .5, CELL_SIZE - 1, CELL_SIZE - 1)
+      for (var i = 1; i <= grid_sizeX - 2; i++) {
+            for (var j = 1; j <= grid_sizeY - 2; j++) {
+                  canv.fillStyle = gridBG;
+                  canv.fillRect(i * cell_size + .5, j * cell_size + .5, cell_size - 1, cell_size - 1)
             }
       }
 }
@@ -250,8 +250,8 @@ oCanv.onmousedown = function (event) {
       var relX = event.clientX - elem.left;
       var relY = event.clientY - elem.top;
 
-      var cellX = (relX - (relX % CELL_SIZE)) / CELL_SIZE;
-      var cellY = (relY - (relY % CELL_SIZE)) / CELL_SIZE;
+      var cellX = (relX - (relX % cell_size)) / cell_size;
+      var cellY = (relY - (relY % cell_size)) / cell_size;
 
       if (censusManager.cellGrid[cellX][cellY]) {
             drawErase = false;
@@ -281,10 +281,10 @@ oCanv.onmousemove = function (event) {
             var relX = event.clientX - elem.left;
             var relY = event.clientY - elem.top;
 
-            var cellX = (relX - (relX % CELL_SIZE)) / CELL_SIZE;
-            var cellY = (relY - (relY % CELL_SIZE)) / CELL_SIZE;
+            var cellX = (relX - (relX % cell_size)) / cell_size;
+            var cellY = (relY - (relY % cell_size)) / cell_size;
 
-            if ((cellX != 0) && (cellY != 0) && (cellX != GRID_SIZEX) && (cellY != GRID_SIZEY))
+            if ((cellX != 0) && (cellY != 0) && (cellX != grid_sizeX) && (cellY != grid_sizeY))
 
                   if (drawErase != censusManager.cellGrid[cellX][cellY]) {
                         toggleCell(cellX, cellY);
@@ -296,7 +296,7 @@ function toggleCell(cellX, cellY) {
       // get current X column and make a temporary copy of it
       var tempX = [];
       
-      for (var i = 0; i < GRID_SIZEY; i++)
+      for (var i = 0; i < grid_sizeY; i++)
             tempX[i] = censusManager.cellGrid[cellX][i];
 
       tempX[cellY] = !(censusManager.cellGrid[cellX][cellY]);
@@ -332,23 +332,23 @@ function setPlayMode(playMode) {
 
 btPlay.onclick = function () {
       if (!censusManager.playActive) {
-            colorBorder(BORDER_COLOR_PLAY);
-            this.style.backgroundColor = BORDER_COLOR_PLAY;
+            colorBorder(borderColorPlay);
+            this.style.backgroundColor = borderColorPlay;
             setPlayMode(true);
             censusManager.playActive = true;
       }
 }
 
 btPause.onclick = function () {
-      colorBorder(BORDER_COLOR_PAUSED);
-      btPlay.style.backgroundColor = BUTTON_COLOR;
+      colorBorder(borderColorPaused);
+      btPlay.style.backgroundColor = buttonColor;
       setPlayMode(false);
       censusManager.playActive = false;
 }
 
 btReset.onclick = function () {
-      colorBorder(BORDER_COLOR_PAUSED);
-      btPlay.style.backgroundColor = BUTTON_COLOR;
+      colorBorder(borderColorPaused);
+      btPlay.style.backgroundColor = buttonColor;
       if (censusManager.playActive) {
             setPlayMode(false);
             censusManager.playActive = false;
@@ -357,8 +357,8 @@ btReset.onclick = function () {
 }
 
 btStep.onclick = function () {
-      colorBorder(BORDER_COLOR_PAUSED);
-      btPlay.style.backgroundColor = BUTTON_COLOR;
+      colorBorder(borderColorPaused);
+      btPlay.style.backgroundColor = buttonColor;
       if (censusManager.playActive) {
             setPlayMode(false);
             censusManager.playActive = false;
@@ -404,10 +404,10 @@ btSpeed30.onclick = function () {
 
 btLoadPreset.onclick = function () {
       if (slPreset.value == "poToad")
-            loadPreset(censusManager, ppToad, GRID_SIZEX / 2, GRID_SIZEY / 2);
+            loadPreset(censusManager, ppToad, grid_sizeX / 2, grid_sizeY / 2);
 
       if (slPreset.value == "poGibberish")
-            loadPreset(censusManager, ppGibberish, GRID_SIZEX / 2, GRID_SIZEY / 2);
+            loadPreset(censusManager, ppGibberish, grid_sizeX / 2, grid_sizeY / 2);
 
       if (slPreset.value == "poGGGun")
             loadPreset(censusManager, ppGGGun, 4, 4);
