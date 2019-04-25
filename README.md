@@ -1,2 +1,2 @@
 # game-of-life
-Tom's Game of Life
+Tom's Conway's Game of Life
