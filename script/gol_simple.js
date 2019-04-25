@@ -32,8 +32,8 @@ const buttonColor = document.getElementById("btPlay").style.color;
 
 
 var censusManager = {
-      cellGrid: [],        // Array of X columns
-      cellGridY: [],       // Nested Array of individual Y cells in an X column
+      cellGrid: [][],        // Array of X columns
+     // cellGridY: [],       // Nested Array of individual Y cells in an X column
       toggleList: [],      // list of cells to be toggled on next step
       playSpeed: 30,       // steps per second
       playActive: false    // false = pause, true = play.
@@ -64,14 +64,14 @@ function calcNextStep(censusManager = censusManager) {
                   var liveAdj = 0;
 
                   // count live neighbors
-                  if (censusManager.cellGrid[x - 1][y - 1] == true) liveAdj++;  // check NW neighbor
-                  if (censusManager.cellGrid[x    ][y - 1] == true) liveAdj++;  // check N neighbor
-                  if (censusManager.cellGrid[x + 1][y - 1] == true) liveAdj++;  // check NE neighbor
-                  if (censusManager.cellGrid[x - 1][y    ] == true) liveAdj++;  // check W neighbor
-                  if (censusManager.cellGrid[x + 1][y    ] == true) liveAdj++;  // check E neighbor
-                  if (censusManager.cellGrid[x - 1][y + 1] == true) liveAdj++;  // check SW neighbor
-                  if (censusManager.cellGrid[x    ][y + 1] == true) liveAdj++;  // check S neighbor
-                  if (censusManager.cellGrid[x + 1][y + 1] == true) liveAdj++;  // check SE neighbor
+                  if (censusManager.cellGrid[x - 1][y - 1]) liveAdj++;  // check NW neighbor
+                  if (censusManager.cellGrid[x    ][y - 1]) liveAdj++;  // check N neighbor
+                  if (censusManager.cellGrid[x + 1][y - 1]) liveAdj++;  // check NE neighbor
+                  if (censusManager.cellGrid[x - 1][y    ]) liveAdj++;  // check W neighbor
+                  if (censusManager.cellGrid[x + 1][y    ]) liveAdj++;  // check E neighbor
+                  if (censusManager.cellGrid[x - 1][y + 1]) liveAdj++;  // check SW neighbor
+                  if (censusManager.cellGrid[x    ][y + 1]) liveAdj++;  // check S neighbor
+                  if (censusManager.cellGrid[x + 1][y + 1]) liveAdj++;  // check SE neighbor
 
                   // If this cell is alive AND live neighbors < 2 or > 3
                   if (((censusManager.cellGrid[x][y]) && ((liveAdj < 2) || (liveAdj > 3))) ||
@@ -81,18 +81,14 @@ function calcNextStep(censusManager = censusManager) {
                         censusManager.toggleList.push([x, y]);
             }
       }
-
 }
 
-// updates the next step by updating cellGrid and cellGridY and renders it to the grid
-function loadStep(censusManager, preset = censusManager.toggleList, canvS = canvX) {
+function loadStep(censusManager, preset = censusManager.toggleList) {
       if (!Array.isArray(preset)) return false;
 
-      for (var x = 0; x < grid_sizeX; x++)
-            preset.forEach(presetElement => {
-                  if (presetElement[0] == x)
-                        censusManager.cellGrid[x][presetElement[1]] = !censusManager.cellGrid[x][presetElement[1]];
-            })
+      preset.forEach(pElement => {
+            censusManager.cellGrid[pElement[0]][pElement[1]] = !censusManager.cellGrid[pElement[0]][pElement[1]];
+      })
 
       return true;
 }
@@ -120,18 +116,22 @@ function loadPreset(censusManager, preset, offsetX = 0, offsetY = 0, canvS = can
 }
 
 // creates a blank field
-function resetGrid(censusManager, canvS = canvX) {
+function resetGrid(censusManager) {
+      let yGrid = [];
+      censusManager.cellGrid = [];
       for (var x = 0; x < grid_sizeX; x++) {
             for (var y = 0; y < grid_sizeY; y++) {
-                  censusManager.cellGridY[y] = false;
+                 yGrid.push(false);
             }
-            censusManager.cellGrid[x] = censusManager.cellGridY;
+            censusManager.cellGrid[x].push(yGrid);
+            yGrid = [];
       }
 }
 
 // updates the canvas to reflect censusManager's data
-function updateRender(canvS, censusManager, checkToggleList) {
-      if (checkToggleList){
+function updateRender(canvS, censusManager, useToggleList = false) {
+      if (useToggleList){
+            // save performance by only checking cells effected by toggle list
             censusManager.toggleList.forEach(function(tElement){ // for each cell in toggle list
                   // if cell is currently off, turn it on
                   if (censusManager.cellGrid[tElement[0]][tElement[1]])
@@ -153,25 +153,6 @@ function updateRender(canvS, censusManager, checkToggleList) {
 
       drawGrid(gridColor);
 }
-
-//*******************************
-// Pattern Presets
-//*******************************
-
-// Toad
-var ppToad = [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]];
-
-// Gibberish
-var ppGibberish = [[0, 1], [3, 1], [2, 4], [8, 4], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2]];
-
-// 2 dots
-var pp2dots = [[2, 0], [0, 2]];
-
-// Gosper's Glider Gun
-var ppGGGun = [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
-[13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
-[18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
-[25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]];
 
 //==========================================================
 // Canvas Renderer 
@@ -373,7 +354,6 @@ function setSpeedAtPlay(speed) {
       setPlayMode(false);
       censusManager.playSpeed = speed;
       setPlayMode(true);
-
 }
 
 btSpeed01.onclick = function () {
@@ -400,21 +380,67 @@ btSpeed30.onclick = function () {
       else censusManager.playSpeed = 30;
 }
 
+//*******************************
+// Pattern Presets
+//*******************************
+
+let presetPatterns = {
+      ppToad: {
+            displayName: "Toad",
+            offsetX: 20,
+            offsetY: 18,
+            patternData: [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]]
+      },
+      ppGibberish: {
+            displayName:"",
+            offsetX: 20,
+            offsetY: 18,
+            patternData: [[0, 1], [3, 1], [2, 4], [8, 4], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2]]
+      },
+      ppGGGun: {
+            displayName: "Gosper Glider Gun",
+            offsetX: 0,
+            offsetY: 0,
+            patternData: [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
+            [13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
+            [18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
+            [25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]]
+      }
+}
+
+// Toad
+var ppToad = [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]];
+
+// Gibberish
+var ppGibberish = [[0, 1], [3, 1], [2, 4], [8, 4], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2]];
+
+// 2 dots
+var pp2dots = [[2, 0], [0, 2]];
+
+// Gosper's Glider Gun
+var ppGGGun = [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
+[13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
+[18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
+[25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]];
+
 // Presets form
 
 btLoadPreset.onclick = function () {
+      let p;
       if (slPreset.value == "poToad")
-            loadPreset(censusManager, ppToad, grid_sizeX / 2, grid_sizeY / 2);
+            p = presetPatterns.ppToad;
 
       if (slPreset.value == "poGibberish")
-            loadPreset(censusManager, ppGibberish, grid_sizeX / 2, grid_sizeY / 2);
+            p = presetPatterns.ppGibberish;
 
       if (slPreset.value == "poGGGun")
-            loadPreset(censusManager, ppGGGun, 4, 4);
+            p = presetPatterns.ppGGGun;
+
+      loadPreset(censusManager,p.patternData,p.offsetX,p.offsetY);
 }
 
 //=====================================================================
 // Let's just go ahead and load Gosper Glider Gun as a default
 //=====================================================================
 
-loadPreset(censusManager, ppGGGun, 2, 2);
+loadPreset(censusManager, presetPatterns.ppGGGun.patternData, 2, 2);
