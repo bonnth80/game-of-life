@@ -385,7 +385,17 @@ btSpeed30.onclick = function () {
 // Pattern Presets
 //*******************************
 
-var presetPatterns = {
+var presetPatterns = {      
+      "ppGGGun": {
+            displayName: "Gosper Glider Gun",
+            listValue: "poGGGun",
+            offsetX: 5,
+            offsetY: 0,
+            patternData: [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
+            [13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
+            [18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
+            [25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]]
+      },
       "ppToad": {
             displayName: "Toad",
             listValue: "poToad",
@@ -400,20 +410,10 @@ var presetPatterns = {
             offsetY: 18,
             patternData: [[0, 1], [3, 1], [2, 4], [8, 4], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2]]
       },
-      "ppGGGun": {
-            displayName: "Gosper Glider Gun",
-            listValue: "poGGGun",
-            offsetX: 5,
-            offsetY: 0,
-            patternData: [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
-            [13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
-            [18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
-            [25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]]
-      },
       "ppAcorn": {
             displayName: "Acorn",
             listValue: "poAcorn",
-            offsetX: 30,
+            offsetX: 40,
             offsetY: 18,
             patternData: [[1,1],[3,2],[0,3],[1,3],[4,3],[5,3],[6,3]]
       },

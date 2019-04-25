@@ -1,3 +1,6 @@
+body {
+  font-family: 'Raleway', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
 #txTitle {
   width:                420px;
   margin-left:          auto;
@@ -5,10 +8,6 @@
   /*border:             1px dashed red;*/
   text-align:           center;
 }
-
-/*#dish {
-  border:               2px dashed #FF00FF;
-}*/
 
 #dishDiv {
   width:                602px;
