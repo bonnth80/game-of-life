@@ -234,13 +234,15 @@ oCanv.onmousedown = function (event) {
       var cellX = (relX - (relX % cell_size)) / cell_size;
       var cellY = (relY - (relY % cell_size)) / cell_size;
 
-      if (censusManager.cellGrid[cellX][cellY]) {
-            drawErase = false;
-            toggleCell(cellX, cellY);
-      }
-      else {
-            toggleCell(cellX, cellY);
-            drawErase = true;
+      if (cellX > 0 && (cellX < grid_sizeX - 1) && cellY > 0 && (cellY < grid_sizeY - 1)) {
+            if (censusManager.cellGrid[cellX][cellY]) {
+                  drawErase = false;
+                  toggleCell(cellX, cellY);
+            }
+            else {
+                  toggleCell(cellX, cellY);
+                  drawErase = true;
+            }
       }
 
 }
@@ -265,7 +267,7 @@ oCanv.onmousemove = function (event) {
             var cellX = (relX - (relX % cell_size)) / cell_size;
             var cellY = (relY - (relY % cell_size)) / cell_size;
 
-            if ((cellX != 0) && (cellY != 0) && (cellX != grid_sizeX) && (cellY != grid_sizeY))
+            if (cellX > 0 && (cellX < grid_sizeX - 1) && cellY > 0 && (cellY < grid_sizeY - 1))
 
                   if (drawErase != censusManager.cellGrid[cellX][cellY]) {
                         toggleCell(cellX, cellY);
@@ -460,16 +462,6 @@ slPreset.onchange = function () {
                   loadPreset(censusManager,q.patternData,q.offsetX,q.offsetY);
       })
 }
-
-// btLoadPreset.onclick = function () {
-//       var p, q;
-
-//       Object.keys(presetPatterns).forEach(el => {            
-//             q = presetPatterns[el];
-//             if (q.listValue == slPreset.value)
-//                   loadPreset(censusManager,q.patternData,q.offsetX,q.offsetY);
-//       })
-// }
 
 //==========================================================
 // Data - Preset Initialization
