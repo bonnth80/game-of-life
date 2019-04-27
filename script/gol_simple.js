@@ -20,15 +20,15 @@ if (oCanv.getContext)
 //*******************************
 
 // game settings
-const grid_sizeX = 60;                 // number of cells across x access
-const grid_sizeY = 40;                 // number of cells across y access
-const cell_size = 10;                  // size of cells in pixels
-const gridColor = '#FFFFFF';          // color of grid lines
-const gridBG = "#EEF";               // color of background
-const cellColor = '#338';          // color of live cells
-const borderColorPaused = "#303";    // color of non-interactible cell border when paused
-const borderColorPlay = "#9C9";      // color of non-interactible cell border when unpaused
-const buttonColor = document.getElementById("btPlay").style.color;
+var grid_sizeX = 60;                 // number of cells across x access
+var grid_sizeY = 40;                 // number of cells across y access
+var cell_size = 10;                  // size of cells in pixels
+var gridColor = '#FFFFFF';          // color of grid lines
+var gridBG = "#EEF";               // color of background
+var cellColor = '#338';          // color of live cells
+var borderColorPaused = "#303";    // color of non-interactible cell border when paused
+var borderColorPlay = "#9C9";      // color of non-interactible cell border when unpaused
+var buttonColor = document.getElementById("btPlay").style.color;
 
 
 var censusManager = {
@@ -337,6 +337,7 @@ var presetPatterns = {
       }
 }
 
+
 //==========================================================
 // UI - Form Controls
 //==========================================================
@@ -350,6 +351,7 @@ btSpeed30 = document.getElementById("btSpeed30");
 btReset = document.getElementById("btReset");
 slPreset = document.getElementById("sl-presets");
 btLoadPreset = document.getElementById("btLoadPreset");
+btRandom = document.getElementById("btRandom");
 
 btSpeed30.style.backgroundColor = borderColorPlay;
 
@@ -461,6 +463,18 @@ slPreset.onchange = function () {
             if (q.listValue == slPreset.value)
                   loadPreset(censusManager,q.patternData,q.offsetX,q.offsetY);
       })
+}
+
+btRandom.onclick = function() {
+      var randSet = [];
+      for (var x = 1; x < grid_sizeX - 1; x++) {
+            for (var y = 1; y < grid_sizeY - 1; y++) {
+                   if (Math.floor(Math.random() * 2))
+                   randSet.push([x,y]);
+            }
+      }
+
+      loadPreset(censusManager, randSet, 0, 0);
 }
 
 //==========================================================
