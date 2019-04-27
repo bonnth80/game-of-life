@@ -18,12 +18,16 @@ body {
 }
 
 .controls {
-   width:               400px;
+   width:               396px;
    margin-left:         auto;
    margin-right:        auto;
 }
 
-.ct-group, .ct-action, .ct-presets {
+.ct-action {
+   text-align:          center;
+}
+
+.ct-action, .ct-presets, .ct-speed {
    border:              1px solid #BBBBBB;
    border-radius:       4px;
    padding:             4px;
@@ -31,9 +35,27 @@ body {
    margin-bottom:       4px;
 }
 
-.ct-action {
+.spaceConverter {
+  font-size: 0px;
+}
 
-   text-align:          center;
+.ct-group {
+  width:                410px;
+  padding:              0px;
+  margin-left:          auto;
+  margin-right:         auto;
+  height:               70px;
+  overflow:             hidden;
+  transition-duration:  300ms;
+}
+
+.ct-speed,.ct-presets {
+  display:              inline-block;
+  width:                191px;
+  margin:               2px 2px 0px 2px;
+  vertical-align:       top;
+  text-align:           center;
+  height:               58px;
 }
 
 .ct-action button{

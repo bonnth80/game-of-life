@@ -33,27 +33,33 @@
          <button id="btPlay" type="button" name="btPlay"><i class="fas fa-play"></i></button>
          <button id="btStep" type="button" name="btStep"><i class="fas fa-step-forward"></i></button><br />
          <button id="btReset" type="button" name="btReset"><i class="fas fa-eraser"></i></button>
+      </div><!--
+   --><div class="ct-group">
+         <div class="ct-speed">
+            <form action="index.html" method="post">
+               Game Speed <br />(steps per second)<br />
+               <button id="btSpeed01" type="button" name="button">1</button>
+               <button id="btSpeed10" type="button" name="button">10</button>
+               <button id="btSpeed20" type="button" name="button">20</button>
+               <button id="btSpeed30" type="button" name="button">30</button>
+            </form>
+         </div><!--
+      --><div class="ct-presets">
+               <form class="form-presets" action="index.html" method="post">
+                  Pattern Presets<br />
+                  <select id="sl-presets" class="select-preset" name="preset">
+               </form>
+         </div>
       </div>
 
-      <div class="controls ct-group">
-         Game Speed (steps per second)<br />
-         <form class="ct-speed" action="index.html" method="post">
-            <button id="btSpeed01" type="button" name="button">1</button>
-            <button id="btSpeed10" type="button" name="button">10</button>
-            <button id="btSpeed20" type="button" name="button">20</button>
-            <button id="btSpeed30" type="button" name="button">30</button>
-         </form>
-         
-      </div>
-
-      <div class="controls ct-presets">
+      <!-- <div class="controls ct-presets">
          Pattern Presets<br />
          <form class="form-presets" action="index.html" method="post">
             <select id="sl-presets" class="select-preset" name="preset">
             </select>
             <button id="btLoadPreset" type="button" name="button">Load Preset</button>
          </form>
-      </div>
+      </div> -->
 
       <script src="script/gol_simple.js"></script>
 

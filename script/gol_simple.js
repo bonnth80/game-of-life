@@ -276,15 +276,63 @@ oCanv.onmousemove = function (event) {
 function toggleCell(cellX, cellY) {
       // get current X column and make a temporary copy of it
       var tempX = censusManager.cellGrid[cellX];
-      
-
       tempX[cellY] = !(censusManager.cellGrid[cellX][cellY]);
-
       censusManager.cellGrid[cellX] = tempX;
-      console.log("toggs")
-
-
       updateRender(canvX, censusManager, false);
+}
+
+//*******************************
+// Pattern Presets
+//*******************************
+
+var presetPatterns = {      
+      "ppGGGun": {
+            displayName: "Gosper Glider Gun",
+            listValue: "poGGGun",
+            offsetX: 5,
+            offsetY: 0,
+            patternData: [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
+            [13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
+            [18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
+            [25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]]
+      },
+      "ppToad": {
+            displayName: "Toad",
+            listValue: "poToad",
+            offsetX: 20,
+            offsetY: 18,
+            patternData: [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]]
+      },
+      "ppGibberish": {
+            displayName:"Gibberish",
+            listValue: "poGibberish",
+            offsetX: 20,
+            offsetY: 18,
+            patternData: [[0, 1], [1, 4], [3, 1], [2, 4], [2, 5], [3, 5], [7, 4], [8, 4],
+                              [8, 5], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2], [10, 5],
+                              [10, 6], [11, 4], [11, 4], [11, 4], [12, 3], [12, 7]]
+      },
+      "ppAcorn": {
+            displayName: "Acorn",
+            listValue: "poAcorn",
+            offsetX: 40,
+            offsetY: 18,
+            patternData: [[1,1],[3,2],[0,3],[1,3],[4,3],[5,3],[6,3]]
+      },
+      "ppRPentomino": {
+            displayName: "R-Pentomino",
+            listValue: "poRPentomino",
+            offsetX: 30,
+            offsetY: 18,
+            patternData: [[0,1],[0,2],[1,0],[1,1],[2,1]]
+      },
+      "ppSpaceship": {
+            displayName: "Spaceship",
+            listValue: "poSpaceship",
+            offsetX: 1,
+            offsetY: 18,
+            patternData: [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [0, 2], [5, 2], [5, 3], [0, 4], [4, 4], [2, 5]]                         
+      }
 }
 
 //==========================================================
@@ -318,6 +366,17 @@ function setSpeedAtPlay(speed) {
       setPlayMode(false);
       censusManager.playSpeed = speed;
       setPlayMode(true);
+}
+
+function resetSHL(iList){
+      // list of items to set bg color      
+      if (!Array.isArray(iList)) {
+            console.warning("gol_simple.js: no overload for resetSHL(iList) for passed arguments");
+            return false;
+      }
+      iList.forEach(el=>{
+            el.style.backgroundColor=buttonColor;
+      })
 }
 
 btPlay.onclick = function () {
@@ -392,115 +451,7 @@ btSpeed30.onclick = function () {
       else censusManager.playSpeed = 30;
 }
 
-function resetSHL(iList){
-      // list of items to set bg color      
-      if (!Array.isArray(iList)) {
-            console.warning("gol_simple.js: no overload for resetSHL(iList) for passed arguments");
-            return false;
-      }
-      iList.forEach(el=>{
-            el.style.backgroundColor=buttonColor;
-      })
-}
-
-//*******************************
-// Pattern Presets
-//*******************************
-
-var presetPatterns = {      
-      "ppGGGun": {
-            displayName: "Gosper Glider Gun",
-            listValue: "poGGGun",
-            offsetX: 5,
-            offsetY: 0,
-            patternData: [[1, 7], [1, 8], [2, 7], [2, 8], [11, 7], [11, 8], [11, 9], [12, 6], [12, 10], [13, 5],
-            [13, 11], [14, 5], [14, 11], [15, 8], [16, 6], [16, 10], [17, 7], [17, 8], [17, 9],
-            [18, 8], [21, 5], [21, 6], [21, 7], [22, 5], [22, 6], [22, 7], [23, 4], [23, 8],
-            [25, 3], [25, 4], [25, 8], [25, 9], [35, 5], [35, 6], [36, 5], [36, 6]]
-      },
-      "ppToad": {
-            displayName: "Toad",
-            listValue: "poToad",
-            offsetX: 20,
-            offsetY: 18,
-            patternData: [[1, 0], [2, 0], [3, 0], [0, 1], [1, 1], [2, 1]]
-      },
-      "ppGibberish": {
-            displayName:"Gibberish",
-            listValue: "poGibberish",
-            offsetX: 20,
-            offsetY: 18,
-            patternData: [[0, 1], [3, 1], [2, 4], [8, 4], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2]]
-      },
-      "ppAcorn": {
-            displayName: "Acorn",
-            listValue: "poAcorn",
-            offsetX: 40,
-            offsetY: 18,
-            patternData: [[1,1],[3,2],[0,3],[1,3],[4,3],[5,3],[6,3]]
-      },
-      "ppRPentomino": {
-            displayName: "R-Pentomino",
-            listValue: "poRPentomino",
-            offsetX: 30,
-            offsetY: 18,
-            patternData: [[0,1],[0,2],[1,0],[1,1],[2,1]]
-      },
-      "ppSpaceship": {
-            displayName: "Spaceship",
-            listValue: "poSpaceship",
-            offsetX: 1,
-            offsetY: 18,
-            patternData: [[1, 1],[2, 1],[3, 1],[4, 1],[5, 1],[0, 2],[5, 2],[5, 3],[0, 4],[4, 4],[2, 5]]
-      }
-}
-
-// some toyz
-// var m = ["000000",
-// "011111",
-// "100001",
-// "000001",
-// "100010",
-// "001000",
-// "000000"]
-
-function arrOfStrToPData(arr) {
-      // converts an array of binary strings like:
-      // ["000000",
-      // "011111",
-      // "100001",
-      // "000001",
-      // "100010",
-      // "001000",
-      // "000000"]
-
-      //var str = "[";
-      var str = [];
-      
-      for (var i = 0; i < arr.length; i++){
-            var n = m[i].split("");
-            for (var j = 0; j < n.length; j++){
-                  if (n[j] == "1")
-                  //str += "[" + i + ", " + j + "],";                  
-                  str.push([j,i]);
-            }
-      }
-      
-      //str += "]";
-      return str;
-}
-
-
-
-// Presets form
-
-var ddPreset = document.getElementById("sl-presets");
-
-Object.keys(presetPatterns).forEach(el => {
-      ddPreset.innerHTML += "<option value=\"" + presetPatterns[el].listValue + "\">" + presetPatterns[el].displayName + "</option>";
-})
-
-btLoadPreset.onclick = function () {
+slPreset.onchange = function () {
       var p, q;
 
       Object.keys(presetPatterns).forEach(el => {            
@@ -510,8 +461,53 @@ btLoadPreset.onclick = function () {
       })
 }
 
+// btLoadPreset.onclick = function () {
+//       var p, q;
+
+//       Object.keys(presetPatterns).forEach(el => {            
+//             q = presetPatterns[el];
+//             if (q.listValue == slPreset.value)
+//                   loadPreset(censusManager,q.patternData,q.offsetX,q.offsetY);
+//       })
+// }
+
+//==========================================================
+// Data - Preset Initialization
+//==========================================================
+// Presets form
+Object.keys(presetPatterns).forEach(el => {
+      slPreset.innerHTML += "<option value=\"" + presetPatterns[el].listValue + "\">" + presetPatterns[el].displayName + "</option>";
+})
+
+function arrOfStrToPData(arr, toStr = false) {
+      // converts an array of binary strings like:
+      // ["000000",
+      // "011111",
+      // "100001",
+      // "000001",
+      // "100010",
+      // "001000",
+      // "000000"]
+
+      var str = toStr ? [] : "[";
+      
+      for (var i = 0; i < arr.length; i++){
+            var n = m[i].split("");
+            for (var j = 0; j < n.length; j++){
+                  if (n[j] == "1")
+                        if (toStr)
+                              str += "[" + i + ", " + j + "],";   
+                        else               
+                              str.push([j,i]);
+            }
+      }
+      
+      //str += "]";
+      return str;
+}
+
 //=====================================================================
-// Let's just go ahead and load Gosper Glider Gun as a default
+// Initialize starting pattern
 //=====================================================================
 
 loadPreset(censusManager, presetPatterns.ppGGGun.patternData, presetPatterns.ppGGGun.offsetX, presetPatterns.ppGGGun.offsetY);
