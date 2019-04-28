@@ -1,12 +1,39 @@
 body {
   font-family: 'Raleway', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
+
 #txTitle {
-  width:                420px;
-  margin-left:          auto;
-  margin-right:         auto;
-  /*border:             1px dashed red;*/
+  margin: 4px;
   text-align:           center;
+}
+
+#txTitle span {
+  font-family: 'Helvetica', 'Arial Narrow', Arial, sans-serif;
+  display: block;
+  font-size: 12px;
+}
+
+#txTitle span:first-child {
+  font-family: 'Helvetica', 'Arial Narrow', Arial, sans-serif;
+  display: block;
+  font-size: 30px;
+}
+
+#profLinks {
+  font-size: 24px;
+  text-align: center;
+  transition-duration: 200ms;
+  color: #222;
+}
+
+#profLinks a:hover, #profLinks a:visited:hover{
+  transition-duration: 200ms;
+  color: rgb(29, 170, 111);
+}
+
+#profLinks a:visited{
+  transition-duration: 200ms;
+  color: #888;
 }
 
 #dishDiv {
@@ -79,14 +106,14 @@ body {
 }
 
 .ct-color {
-  font-size: 14px;
-  overflow: hidden;
-  transition-duration: 100ms;
-  text-align: left;
+  font-size:            14px;
+  overflow:             hidden;
+  transition-duration:  100ms;
+  text-align:           left;
 
-  border: none;
-  padding: 0px 4px;
-  height: 0px;
+  border:               none;
+  padding:              0px 4px;
+  height:               0px;
 }
 
 .btnColor {

@@ -20,16 +20,15 @@ if (oCanv.getContext)
 //*******************************
 
 // game settings
-var grid_sizeX = 120;                 // number of cells across x access
-var grid_sizeY = 80;                 // number of cells across y access
+var grid_sizeX = 120;               // number of cells across x access
+var grid_sizeY = 80;                // number of cells across y access
 var cell_size = 5;                  // size of cells in pixels
 var gridColor = '#FFFFFF';          // color of grid lines
-var gridBG = "#EEF";               // color of background
-var cellColor = '#338';          // color of live cells
-var borderColorPaused = "#556";    // color of non-interactible cell border when paused
-var borderColorPlay = "#9C9";      // color of non-interactible cell border when unpaused
+var gridBG = "#EEF";                // color of background
+var cellColor = '#338';             // color of live cells
+var borderColorPaused = "#556";     // color of non-interactible cell border when paused
+var borderColorPlay = "#9C9";       // color of non-interactible cell border when unpaused
 var buttonColor = document.getElementById("btPlay").style.color;
-
 
 var censusManager = {
       cellGrid: [],        // Array of X columns
@@ -82,6 +81,7 @@ function calcNextStep(censusManager = censusManager) {
       }
 }
 
+// update census data using toggle list
 function loadStep(censusManager, preset = censusManager.toggleList) {
       if (!Array.isArray(preset)) return false;
 
@@ -312,8 +312,8 @@ var presetPatterns = {
             offsetX: 20,
             offsetY: 18,
             patternData: [[0, 1], [1, 4], [3, 1], [2, 4], [2, 5], [3, 5], [7, 4], [8, 4],
-                              [8, 5], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2], [10, 5],
-                              [10, 6], [11, 4], [11, 4], [11, 4], [12, 3], [12, 7]]
+            [8, 5], [1, 3], [1, 2], [3, 2], [0, 4], [0, 2], [10, 5],
+            [10, 6], [11, 4], [11, 4], [11, 4], [12, 3], [12, 7]]
       },
       "ppAcorn": {
             displayName: "Acorn",
@@ -337,7 +337,6 @@ var presetPatterns = {
             patternData: [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [0, 2], [5, 2], [5, 3], [0, 4], [4, 4], [2, 5]]                         
       }
 }
-
 
 //==========================================================
 // UI - Form Controls
@@ -532,6 +531,11 @@ btColorPlay.onchange = function(){
 Object.keys(presetPatterns).forEach(el => {
       slPreset.innerHTML += "<option value=\"" + presetPatterns[el].listValue + "\">" + presetPatterns[el].displayName + "</option>";
 })
+
+
+//==========================================================
+// Some toy I'm working on... may be something.. may be nothing
+//==========================================================
 
 function arrOfStrToPData(arr, toStr = false) {
       // converts an array of binary strings like:
