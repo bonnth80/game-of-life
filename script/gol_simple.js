@@ -352,11 +352,18 @@ btReset = document.getElementById("btReset");
 slPreset = document.getElementById("sl-presets");
 btLoadPreset = document.getElementById("btLoadPreset");
 btRandom = document.getElementById("btRandom");
-btToggleSettings = document.getElementById("btToggleSettings");
+btToggleColors = document.getElementById("btToggleColors");
 btColorCells = document.getElementById("colorCells");
 btColorBG = document.getElementById("colorBG");
 btColorPause = document.getElementById("colorPause");
 btColorPlay = document.getElementById("colorPlay");
+btToggleSizes = document.getElementById("btToggleSizes");
+txtHorizontal = document.getElementById("txtHorizontal");
+txtVertical = document.getElementById("txtVertical");
+lblInfoCellSize = document.getElementById("info-cellSize");
+lblInfoColumns = document.getElementById("info-columns");
+lblInfoRows = document.getElementById("info-rows");
+lblInfoCellCount = document.getElementById("info-cellCount");
 
 btSpeed30.style.backgroundColor = borderColorPlay;
 
@@ -482,24 +489,45 @@ btRandom.onclick = function() {
       loadPreset(censusManager, randSet, 0, 0);
 }
 
+var showSizes = false;
 var showColors = false;
-btToggleSettings.onclick = function() {
-      //    border:              1px solid #BBBBBB;
+
+function toggleColors() {
       var ctColors = document.getElementsByClassName("ct-color")[0];
 
       if (!showColors) {
             ctColors.style.height = "120px";            
             ctColors.style.padding = "4px";
             ctColors.style.border = " 1px solid #BBBBBB";
-            btToggleSettings.innerHTML = '<i class="fas fa-angle-double-up"></i>'
       } else {
             ctColors.style.height = "0px";
             ctColors.style.padding = "0px 4px";
             ctColors.style.border = "none";
-            btToggleSettings.innerHTML = '<i class="fas fa-angle-double-down"></i>'
       }
 
       showColors = !showColors
+}
+
+function toggleSizes() {      
+      var ctSizes = document.getElementsByClassName("ct-sizes")[0];
+
+      if (!showSizes) {
+            ctSizes.style.height = "100px";            
+            // ctSizes.style.padding = "4px";
+            ctSizes.style.border = " 1px solid #BBBBBB";
+      } else {
+            ctSizes.style.height = "0px";
+            // ctSizes.style.padding = "0px 4px";
+            ctSizes.style.border = "none";
+      }
+
+      showSizes = !showSizes;
+}
+
+btToggleColors.onclick = function() {
+      //    border:              1px solid #BBBBBB;
+      if (showSizes) toggleSizes();
+      toggleColors();
 }
 
 btColorCells.onchange = function(){
@@ -522,6 +550,88 @@ btColorPlay.onchange = function(){
       borderColorPlay = btColorPlay.value;
       if (censusManager.playActive)
             colorBorder(borderColorPlay);
+}
+
+btToggleSizes.onclick = function() {
+      //    border:              1px solid #BBBBBB;
+      if (showColors) toggleColors();
+      toggleSizes();
+}
+
+
+txtVertical.onchange = function() {
+      var vVal = parseInt(txtVertical.value);
+      if (vVal === NaN) {
+            txtVertical.value = grid_sizeY;
+            alert("gol_simple.js\ncannot parse vertical value");
+            return 0;
+      }
+      if (vVal % 4 != 0) {
+            txtVertical.value = grid_sizeY;
+            alert("gol_simple.js\nvertical value must be divisible by 4");
+            return 0;
+      }
+      if ((vVal < 4) || (vVal > 200)) {
+            txtVertical.value = grid_sizeY;
+            alert("gol_simple.js\nvertical value out of range (4 - 200");
+            return 0;
+      } 
+
+      txtHorizontal.value = vVal * 3 / 2;
+
+      grid_sizeX = txtHorizontal.value;
+      grid_sizeY = vVal;
+      cell_size = 600 / grid_sizeX;
+
+      resetGrid(censusManager);
+      updateRender(canvX, censusManager, false);
+      colorBorder(borderColorPaused);
+      drawGrid(gridColor);
+      updateCellStatistics();
+}
+
+txtHorizontal.onchange = function() {
+      var hVal = parseInt(txtHorizontal.value);
+      if (hVal === NaN) {
+            txtHorizontal.value = grid_sizeX;
+            alert("gol_simple.js\ncannot parse horizontal value");
+            return 0;
+      }
+      if (hVal % 6 != 0) {
+            txtHorizontal.value = grid_sizeX;
+            alert("gol_simple.js\nhorizontal value must be divisible by 6");
+            return 0;
+      }
+      if (hVal < 6 || hVal > 300) {
+            txtHorizontal.value = grid_sizeX;
+            alert("gol_simple.js\nhorizontal value out of range (6 - 300)");
+            return 0;
+      }
+
+      txtVertical.value = hVal * 2 /3 ;
+
+      grid_sizeX = hVal;
+      grid_sizeY = txtVertical.value;
+      cell_size = 600 / grid_sizeX;
+
+      
+      resetGrid(censusManager);
+      updateRender(canvX, censusManager, false);
+      colorBorder(borderColorPaused);
+      drawGrid(gridColor);
+      updateCellStatistics();
+}
+
+function updateCellStatistics() {
+      lblInfoCellSize.innerHTML = "";
+      if (cell_size != Math.floor(cell_size))
+            lblInfoCellSize.innerHTML = "~";
+      lblInfoCellSize.innerHTML += Math.floor(cell_size) + "px";
+
+
+      lblInfoColumns.innerHTML = grid_sizeX - 2;
+      lblInfoRows.innerHTML = grid_sizeY -2;
+      lblInfoCellCount.innerHTML = (grid_sizeX - 2) * (grid_sizeY -2);
 }
 
 //==========================================================
