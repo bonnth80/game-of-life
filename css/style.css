@@ -27,7 +27,7 @@ body {
    text-align:          center;
 }
 
-.ct-action, .ct-presets, .ct-speed {
+.ct-action, .ct-presets, .ct-speed, .ct-color {
    border:              1px solid #BBBBBB;
    border-radius:       4px;
    padding:             4px;
@@ -35,9 +35,9 @@ body {
    margin-bottom:       4px;
 }
 
-.spaceConverter {
+/* .spaceConverter {
   font-size: 0px;
-}
+} */
 
 .ct-group {
   width:                410px;
@@ -64,11 +64,44 @@ body {
   font-size:            16px;
 }
 
+.ct-settings {
+  text-align: center;
+  width: 400px;
+  margin: 0px auto 0px auto;
+}
+
+#btToggleSettings {
+  width: 100%;
+}
+
+#btToggleSettings:hover {
+  background-color: rgb(220,250,220);
+}
+
+.ct-color {
+  font-size: 14px;
+  overflow: hidden;
+  transition-duration: 100ms;
+  text-align: left;
+
+  border: none;
+  padding: 0px 4px;
+  height: 0px;
+}
+
+.btnColor {
+  width: 160px;
+}
+
 button {
   margin-bottom:       4px;
   background-color:    #EEE;
   border:              1px solid #AAA;
   border-radius:       4px;
+}
+
+button:hover {  
+  background-color: rgb(220,250,220);
 }
 
 button:focus {

@@ -20,20 +20,19 @@ if (oCanv.getContext)
 //*******************************
 
 // game settings
-var grid_sizeX = 60;                 // number of cells across x access
-var grid_sizeY = 40;                 // number of cells across y access
-var cell_size = 10;                  // size of cells in pixels
+var grid_sizeX = 120;                 // number of cells across x access
+var grid_sizeY = 80;                 // number of cells across y access
+var cell_size = 5;                  // size of cells in pixels
 var gridColor = '#FFFFFF';          // color of grid lines
 var gridBG = "#EEF";               // color of background
 var cellColor = '#338';          // color of live cells
-var borderColorPaused = "#303";    // color of non-interactible cell border when paused
+var borderColorPaused = "#556";    // color of non-interactible cell border when paused
 var borderColorPlay = "#9C9";      // color of non-interactible cell border when unpaused
 var buttonColor = document.getElementById("btPlay").style.color;
 
 
 var censusManager = {
       cellGrid: [],        // Array of X columns
-     // cellGridY: [],       // Nested Array of individual Y cells in an X column
       toggleList: [],      // list of cells to be toggled on next step
       playSpeed: 30,       // steps per second
       playActive: false    // false = pause, true = play.
@@ -161,8 +160,6 @@ function updateRender(canvS, censusManager, useToggleList = true) {
 // grid ------------------
 canvX.strokeStyle = gridColor;
 
-drawGrid("black");
-
 function drawGrid(cVal) {
       canvX.strokeStyle = cVal;
 
@@ -280,7 +277,11 @@ function toggleCell(cellX, cellY) {
       var tempX = censusManager.cellGrid[cellX];
       tempX[cellY] = !(censusManager.cellGrid[cellX][cellY]);
       censusManager.cellGrid[cellX] = tempX;
-      updateRender(canvX, censusManager, false);
+
+      if (censusManager.cellGrid[cellX][cellY]) cFillCell(canvX, cellX, cellY);
+      else cClearCell(canvX, cellX, cellY);
+
+      //updateRender(canvX, censusManager, false);
 }
 
 //*******************************
@@ -317,15 +318,15 @@ var presetPatterns = {
       "ppAcorn": {
             displayName: "Acorn",
             listValue: "poAcorn",
-            offsetX: 40,
-            offsetY: 18,
+            offsetX: 80,
+            offsetY: 36,
             patternData: [[1,1],[3,2],[0,3],[1,3],[4,3],[5,3],[6,3]]
       },
       "ppRPentomino": {
             displayName: "R-Pentomino",
             listValue: "poRPentomino",
-            offsetX: 30,
-            offsetY: 18,
+            offsetX: 60,
+            offsetY: 36,
             patternData: [[0,1],[0,2],[1,0],[1,1],[2,1]]
       },
       "ppSpaceship": {
@@ -352,6 +353,11 @@ btReset = document.getElementById("btReset");
 slPreset = document.getElementById("sl-presets");
 btLoadPreset = document.getElementById("btLoadPreset");
 btRandom = document.getElementById("btRandom");
+btToggleSettings = document.getElementById("btToggleSettings");
+btColorCells = document.getElementById("colorCells");
+btColorBG = document.getElementById("colorBG");
+btColorPause = document.getElementById("colorPause");
+btColorPlay = document.getElementById("colorPlay");
 
 btSpeed30.style.backgroundColor = borderColorPlay;
 
@@ -456,7 +462,7 @@ btSpeed30.onclick = function () {
 }
 
 slPreset.onchange = function () {
-      var p, q;
+      var q;
 
       Object.keys(presetPatterns).forEach(el => {            
             q = presetPatterns[el];
@@ -475,6 +481,48 @@ btRandom.onclick = function() {
       }
 
       loadPreset(censusManager, randSet, 0, 0);
+}
+
+var showColors = false;
+btToggleSettings.onclick = function() {
+      //    border:              1px solid #BBBBBB;
+      var ctColors = document.getElementsByClassName("ct-color")[0];
+
+      if (!showColors) {
+            ctColors.style.height = "120px";            
+            ctColors.style.padding = "4px";
+            ctColors.style.border = " 1px solid #BBBBBB";
+            btToggleSettings.innerHTML = '<i class="fas fa-angle-double-up"></i>'
+      } else {
+            ctColors.style.height = "0px";
+            ctColors.style.padding = "0px 4px";
+            ctColors.style.border = "none";
+            btToggleSettings.innerHTML = '<i class="fas fa-angle-double-down"></i>'
+      }
+
+      showColors = !showColors
+}
+
+btColorCells.onchange = function(){
+      cellColor = btColorCells.value;
+      updateRender(canvX, censusManager, false);
+}
+
+btColorBG.onchange = function(){
+      gridBG = btColorBG.value;
+      updateRender(canvX, censusManager, false);
+}
+
+btColorPause.onchange = function(){
+      borderColorPaused = btColorPause.value;
+      if (!censusManager.playActive)
+            colorBorder(borderColorPaused);
+}
+
+btColorPlay.onchange = function(){
+      borderColorPlay = btColorPlay.value;
+      if (censusManager.playActive)
+            colorBorder(borderColorPlay);
 }
 
 //==========================================================
