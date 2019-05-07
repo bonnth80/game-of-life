@@ -62,14 +62,15 @@ function calcNextStep(censusManager = censusManager) {
                   var liveAdj = 0;
 
                   // count live neighbors
-                  if (censusManager.cellGrid[x - 1][y - 1]) liveAdj++;  // check NW neighbor
-                  if (censusManager.cellGrid[x    ][y - 1]) liveAdj++;  // check N neighbor
-                  if (censusManager.cellGrid[x + 1][y - 1]) liveAdj++;  // check NE neighbor
-                  if (censusManager.cellGrid[x - 1][y    ]) liveAdj++;  // check W neighbor
-                  if (censusManager.cellGrid[x + 1][y    ]) liveAdj++;  // check E neighbor
-                  if (censusManager.cellGrid[x - 1][y + 1]) liveAdj++;  // check SW neighbor
-                  if (censusManager.cellGrid[x    ][y + 1]) liveAdj++;  // check S neighbor
-                  if (censusManager.cellGrid[x + 1][y + 1]) liveAdj++;  // check SE neighbor
+                  liveAdj +=
+                    (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
+                  + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
+                  + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
+                  + (censusManager.cellGrid[x - 1][y    ])  // check W neighbor
+                  + (censusManager.cellGrid[x + 1][y    ])  // check E neighbor
+                  + (censusManager.cellGrid[x - 1][y + 1])  // check SW neighbor
+                  + (censusManager.cellGrid[x    ][y + 1])  // check S neighbor
+                  + (censusManager.cellGrid[x + 1][y + 1]);  // check SE neighbor
 
                   // If this cell is alive AND live neighbors < 2 or > 3
                   if (((censusManager.cellGrid[x][y]) && ((liveAdj < 2) || (liveAdj > 3))) ||
@@ -160,7 +161,7 @@ function updateRender(canvS, censusManager, useToggleList = true) {
 // grid ------------------
 canvX.strokeStyle = gridColor;
 
-function drawGrid(cVal) {
+function drawGrid (cVal){
       canvX.strokeStyle = cVal;
 
       for (var i = 1; i <= grid_sizeY - 1; i++) {
