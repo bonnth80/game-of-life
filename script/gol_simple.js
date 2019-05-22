@@ -62,21 +62,20 @@ function calcNextStep(censusManager = censusManager) {
                   var liveAdj = 0;
 
                   // count live neighbors
-                  liveAdj +=
-                    (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
-                  + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
-                  + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
-                  + (censusManager.cellGrid[x - 1][y    ])  // check W neighbor
-                  + (censusManager.cellGrid[x + 1][y    ])  // check E neighbor
-                  + (censusManager.cellGrid[x - 1][y + 1])  // check SW neighbor
-                  + (censusManager.cellGrid[x    ][y + 1])  // check S neighbor
-                  + (censusManager.cellGrid[x + 1][y + 1]);  // check SE neighbor
+                  liveAdj += (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
+                           + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
+                           + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
+                           + (censusManager.cellGrid[x - 1][y    ])  // check W neighbor
+                           + (censusManager.cellGrid[x + 1][y    ])  // check E neighbor
+                           + (censusManager.cellGrid[x - 1][y + 1])  // check SW neighbor
+                           + (censusManager.cellGrid[x    ][y + 1])  // check S neighbor
+                           + (censusManager.cellGrid[x + 1][y + 1]);  // check SE neighbor
 
                   // If this cell is alive AND live neighbors < 2 or > 3
                   if (((censusManager.cellGrid[x][y]) && ((liveAdj < 2) || (liveAdj > 3))) ||
                         // or if this cell is dead and live neighbors == 3
                         ((!censusManager.cellGrid[x][y]) && (liveAdj == 3)))
-                        // Then toggle (spawn if dead, die if live)
+                        // Then toggle (spawn if dead, die if alive)
                         censusManager.toggleList.push([x, y]);
             }
       }
@@ -136,7 +135,7 @@ function updateRender(canvS, censusManager, useToggleList = true) {
                   // if cell is currently off, turn it on
                   if (censusManager.cellGrid[tElement[0]][tElement[1]])
                         cFillCell(canvS, tElement[0], tElement[1]);
-                  // if cell is ccurrent on, turn it off
+                  // if cell is currently on, turn it off
                   if (!censusManager.cellGrid[tElement[0]][tElement[1]])
                         cClearCell(canvS, tElement[0], tElement[1]);
                   })
@@ -559,7 +558,6 @@ btToggleSizes.onclick = function() {
       toggleSizes();
 }
 
-
 txtVertical.onchange = function() {
       var vVal = parseInt(txtVertical.value);
       if (vVal === NaN) {
@@ -614,7 +612,6 @@ txtHorizontal.onchange = function() {
       grid_sizeX = hVal;
       grid_sizeY = txtVertical.value;
       cell_size = 600 / grid_sizeX;
-
       
       resetGrid(censusManager);
       updateRender(canvX, censusManager, false);
@@ -628,7 +625,6 @@ function updateCellStatistics() {
       if (cell_size != Math.floor(cell_size))
             lblInfoCellSize.innerHTML = "~";
       lblInfoCellSize.innerHTML += Math.floor(cell_size) + "px";
-
 
       lblInfoColumns.innerHTML = grid_sizeX - 2;
       lblInfoRows.innerHTML = grid_sizeY -2;
@@ -671,7 +667,7 @@ function arrOfStrToPData(arr, toStr = false) {
             }
       }
       
-      //str += "]";
+      if (toStr) str += "]";
       return str;
 }
 
