@@ -46,30 +46,20 @@ resetGrid(censusManager);
 
 // core app loop - runs a single step in gol sequence
 function runSequence(censusManager = censusManager) {
-      calcNextStep(censusManager);
+      calculateNextStep(censusManager);
       loadStep(censusManager);
       updateRender(canvX, censusManager);
 }
 
 // calculate the next step in play sequence
 // updates the toggle list which is then pushed to load step
-function calcNextStep(censusManager = censusManager) {
+function calculateNextStep(censusManager = censusManager) {
       censusManager.toggleList = [];
 
       for (var x = 1; x < grid_sizeX - 1; x++) {
             for (var y = 1; y < grid_sizeY - 1; y++) {
-                  // initialize live neighbor count
-                  var liveAdj = 0;
-
-                  // count live neighbors
-                  liveAdj += (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
-                           + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
-                           + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
-                           + (censusManager.cellGrid[x - 1][y    ])  // check W neighbor
-                           + (censusManager.cellGrid[x + 1][y    ])  // check E neighbor
-                           + (censusManager.cellGrid[x - 1][y + 1])  // check SW neighbor
-                           + (censusManager.cellGrid[x    ][y + 1])  // check S neighbor
-                           + (censusManager.cellGrid[x + 1][y + 1]);  // check SE neighbor
+                  // count number of live neighbors
+                  var liveAdj = getNeighborCount(censusManager, x, y);
 
                   // If this cell is alive AND live neighbors < 2 or > 3
                   if (((censusManager.cellGrid[x][y]) && ((liveAdj < 2) || (liveAdj > 3))) ||
@@ -79,6 +69,22 @@ function calcNextStep(censusManager = censusManager) {
                         censusManager.toggleList.push([x, y]);
             }
       }
+}
+
+function getNeighborCount(censusManager = censusManager, x, y) {
+      var liveAdj = 0;
+
+      // count live neighbors
+      liveAdj += (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
+               + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
+               + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
+               + (censusManager.cellGrid[x - 1][y    ])  // check W neighbor
+               + (censusManager.cellGrid[x + 1][y    ])  // check E neighbor
+               + (censusManager.cellGrid[x - 1][y + 1])  // check SW neighbor
+               + (censusManager.cellGrid[x    ][y + 1])  // check S neighbor
+               + (censusManager.cellGrid[x + 1][y + 1]);  // check SE neighbor
+
+      return liveAdj;
 }
 
 // update census data using toggle list
@@ -100,7 +106,7 @@ function loadPreset(censusManager, preset, offsetX = 0, offsetY = 0, canvS = can
       for (var x = 0; x < grid_sizeX; x++) {
             // create a temporary column (x) to insert into array later
             var tempX = [];
-            for (var i = 0; i < grid_sizeX; i++) { tempX[i] = false; }            
+            for (var i = 0; i < grid_sizeX; i++) { tempX[i] = false; }
 
             preset.forEach(pElement => { // for each element (coordinate) in the preset
                   // if this coord's x value is the current x row
@@ -154,7 +160,7 @@ function updateRender(canvS, censusManager, useToggleList = true) {
 }
 
 //==========================================================
-// Canvas Renderer 
+// Canvas Renderer
 //==========================================================
 
 // grid ------------------
@@ -288,7 +294,7 @@ function toggleCell(cellX, cellY) {
 // Pattern Presets
 //*******************************
 
-var presetPatterns = {      
+var presetPatterns = {
       "ppGGGun": {
             displayName: "Gosper Glider Gun",
             listValue: "poGGGun",
@@ -334,36 +340,36 @@ var presetPatterns = {
             listValue: "poSpaceship",
             offsetX: 1,
             offsetY: 18,
-            patternData: [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [0, 2], [5, 2], [5, 3], [0, 4], [4, 4], [2, 5]]                         
+            patternData: [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [0, 2], [5, 2], [5, 3], [0, 4], [4, 4], [2, 5]]
       }
 }
 
 //==========================================================
 // UI - Form Controls
 //==========================================================
-btPause = document.getElementById("btPause");
-btPlay = document.getElementById("btPlay");
-btStep = document.getElementById("btStep");
-btSpeed01 = document.getElementById("btSpeed01");
-btSpeed10 = document.getElementById("btSpeed10");
-btSpeed20 = document.getElementById("btSpeed20");
-btSpeed30 = document.getElementById("btSpeed30");
-btReset = document.getElementById("btReset");
-slPreset = document.getElementById("sl-presets");
-btLoadPreset = document.getElementById("btLoadPreset");
-btRandom = document.getElementById("btRandom");
-btToggleColors = document.getElementById("btToggleColors");
-btColorCells = document.getElementById("colorCells");
-btColorBG = document.getElementById("colorBG");
-btColorPause = document.getElementById("colorPause");
-btColorPlay = document.getElementById("colorPlay");
-btToggleSizes = document.getElementById("btToggleSizes");
-txtHorizontal = document.getElementById("txtHorizontal");
-txtVertical = document.getElementById("txtVertical");
-lblInfoCellSize = document.getElementById("info-cellSize");
-lblInfoColumns = document.getElementById("info-columns");
-lblInfoRows = document.getElementById("info-rows");
-lblInfoCellCount = document.getElementById("info-cellCount");
+var btPause = document.getElementById("btPause");
+var btPlay = document.getElementById("btPlay");
+var btStep = document.getElementById("btStep");
+var btSpeed01 = document.getElementById("btSpeed01");
+var btSpeed10 = document.getElementById("btSpeed10");
+var btSpeed20 = document.getElementById("btSpeed20");
+var btSpeed30 = document.getElementById("btSpeed30");
+var btReset = document.getElementById("btReset");
+var slPreset = document.getElementById("sl-presets");
+var btLoadPreset = document.getElementById("btLoadPreset");
+var btRandom = document.getElementById("btRandom");
+var btToggleColors = document.getElementById("btToggleColors");
+var btColorCells = document.getElementById("colorCells");
+var btColorBG = document.getElementById("colorBG");
+var btColorPause = document.getElementById("colorPause");
+var btColorPlay = document.getElementById("colorPlay");
+var btToggleSizes = document.getElementById("btToggleSizes");
+var txtHorizontal = document.getElementById("txtHorizontal");
+var txtVertical = document.getElementById("txtVertical");
+var lblInfoCellSize = document.getElementById("info-cellSize");
+var lblInfoColumns = document.getElementById("info-columns");
+var lblInfoRows = document.getElementById("info-rows");
+var lblInfoCellCount = document.getElementById("info-cellCount");
 
 btSpeed30.style.backgroundColor = borderColorPlay;
 
@@ -385,7 +391,7 @@ function setSpeedAtPlay(speed) {
 }
 
 function resetSHL(iList){
-      // list of items to set bg color      
+      // list of items to set bg color
       if (!Array.isArray(iList)) {
             console.warning("gol_simple.js: no overload for resetSHL(iList) for passed arguments");
             return false;
@@ -470,7 +476,7 @@ btSpeed30.onclick = function () {
 slPreset.onchange = function () {
       var q;
 
-      Object.keys(presetPatterns).forEach(el => {            
+      Object.keys(presetPatterns).forEach(el => {
             q = presetPatterns[el];
             if (q.listValue == slPreset.value)
                   loadPreset(censusManager,q.patternData,q.offsetX,q.offsetY);
@@ -481,8 +487,9 @@ btRandom.onclick = function() {
       var randSet = [];
       for (var x = 1; x < grid_sizeX - 1; x++) {
             for (var y = 1; y < grid_sizeY - 1; y++) {
-                   if (Math.floor(Math.random() * 2))
-                   randSet.push([x,y]);
+                   if (Math.floor(Math.random() * 2)) {
+                        randSet.push([x,y]);
+                   }
             }
       }
 
@@ -496,7 +503,7 @@ function toggleColors() {
       var ctColors = document.getElementsByClassName("ct-color")[0];
 
       if (!showColors) {
-            ctColors.style.height = "120px";            
+            ctColors.style.height = "120px";
             ctColors.style.padding = "4px";
             ctColors.style.border = " 1px solid #BBBBBB";
       } else {
@@ -508,11 +515,11 @@ function toggleColors() {
       showColors = !showColors
 }
 
-function toggleSizes() {      
+function toggleSizes() {
       var ctSizes = document.getElementsByClassName("ct-sizes")[0];
 
       if (!showSizes) {
-            ctSizes.style.height = "100px";            
+            ctSizes.style.height = "100px";
             // ctSizes.style.padding = "4px";
             ctSizes.style.border = " 1px solid #BBBBBB";
       } else {
@@ -574,7 +581,7 @@ txtVertical.onchange = function() {
             txtVertical.value = grid_sizeY;
             alert("gol_simple.js\nvertical value out of range (4 - 200");
             return 0;
-      } 
+      }
 
       txtHorizontal.value = vVal * 3 / 2;
 
@@ -612,7 +619,7 @@ txtHorizontal.onchange = function() {
       grid_sizeX = hVal;
       grid_sizeY = txtVertical.value;
       cell_size = 600 / grid_sizeX;
-      
+
       resetGrid(censusManager);
       updateRender(canvX, censusManager, false);
       colorBorder(borderColorPaused);
@@ -655,18 +662,18 @@ function arrOfStrToPData(arr, toStr = false) {
       // "000000"]
 
       var str = toStr ? [] : "[";
-      
+
       for (var i = 0; i < arr.length; i++){
             var n = m[i].split("");
             for (var j = 0; j < n.length; j++){
                   if (n[j] == "1")
                         if (toStr)
-                              str += "[" + i + ", " + j + "],";   
-                        else               
+                              str += "[" + i + ", " + j + "],";
+                        else
                               str.push([j,i]);
             }
       }
-      
+
       if (toStr) str += "]";
       return str;
 }
