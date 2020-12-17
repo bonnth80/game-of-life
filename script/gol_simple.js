@@ -156,7 +156,7 @@ function updateRender(canvS, censusManager, useToggleList = true) {
                   }
             }
 
-      drawGrid(gridColor);
+      // drawGrid(gridColor);
 }
 
 //==========================================================
@@ -173,15 +173,14 @@ function drawGrid (cVal){
             canvX.beginPath();
             canvX.moveTo(cell_size + .5, i * cell_size + .5);
             canvX.lineTo((grid_sizeX - 1) * cell_size + .5, i * cell_size + .5);
-            canvX.stroke();
       }
 
       for (var i = 1; i <= grid_sizeX - 1; i++) {
             canvX.beginPath();
             canvX.moveTo(i * cell_size + .5, cell_size + 0.5);
             canvX.lineTo(i * cell_size + .5, (grid_sizeY - 1) * cell_size + .5);
-            canvX.stroke();
       }
+      canvX.stroke();
 }
 
 colorBorder(borderColorPaused);
