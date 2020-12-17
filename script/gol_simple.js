@@ -58,7 +58,6 @@ function calculateNextStep(censusManager = censusManager) {
 
       for (var x = 1; x < grid_sizeX - 1; x++) {
             for (var y = 1; y < grid_sizeY - 1; y++) {
-                  // count number of live neighbors
                   var liveAdj = getNeighborCount(censusManager, x, y);
 
                   // If this cell is alive AND live neighbors < 2 or > 3
@@ -74,7 +73,6 @@ function calculateNextStep(censusManager = censusManager) {
 function getNeighborCount(censusManager = censusManager, x, y) {
       var liveAdj = 0;
 
-      // count live neighbors
       liveAdj += (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
                + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
                + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
@@ -104,14 +102,11 @@ function loadPreset(censusManager, preset, offsetX = 0, offsetY = 0, canvS = can
       if (!Array.isArray(preset)) return false;
 
       for (var x = 0; x < grid_sizeX; x++) {
-            // create a temporary column (x) to insert into array later
             var tempX = [];
             for (var i = 0; i < grid_sizeX; i++) { tempX[i] = false; }
 
-            preset.forEach(pElement => { // for each element (coordinate) in the preset
-                  // if this coord's x value is the current x row
+            preset.forEach(pElement => {
                   if (pElement[0] + offsetX == x)
-                        //insert this coordinate as true in the appropriate y cell
                         tempX[pElement[1] + offsetY] = true;
             })
             censusManager.cellGrid[x] = tempX;
@@ -135,7 +130,7 @@ function resetGrid(censusManager) {
 
 // updates the canvas to reflect censusManager's data
 function updateRender(canvS, censusManager, useToggleList = true) {
-      if (useToggleList){
+      if (useToggleList) {
             // save performance by only checking cells effected by toggle list
             censusManager.toggleList.forEach(function(tElement){ // for each cell in toggle list
                   // if cell is currently off, turn it on
@@ -166,17 +161,16 @@ function updateRender(canvS, censusManager, useToggleList = true) {
 // grid ------------------
 canvX.strokeStyle = gridColor;
 
-function drawGrid (cVal){
-      canvX.strokeStyle = cVal;
+function drawGrid (cVal) {
+      canvX.strokeStyle = gridColor;
 
+      canvX.beginPath();
       for (var i = 1; i <= grid_sizeY - 1; i++) {
-            canvX.beginPath();
             canvX.moveTo(cell_size + .5, i * cell_size + .5);
             canvX.lineTo((grid_sizeX - 1) * cell_size + .5, i * cell_size + .5);
       }
 
       for (var i = 1; i <= grid_sizeX - 1; i++) {
-            canvX.beginPath();
             canvX.moveTo(i * cell_size + .5, cell_size + 0.5);
             canvX.lineTo(i * cell_size + .5, (grid_sizeY - 1) * cell_size + .5);
       }
@@ -358,10 +352,11 @@ var slPreset = document.getElementById("sl-presets");
 var btLoadPreset = document.getElementById("btLoadPreset");
 var btRandom = document.getElementById("btRandom");
 var btToggleColors = document.getElementById("btToggleColors");
-var btColorCells = document.getElementById("colorCells");
-var btColorBG = document.getElementById("colorBG");
-var btColorPause = document.getElementById("colorPause");
-var btColorPlay = document.getElementById("colorPlay");
+var btColorLive = document.getElementById("colorLive");
+var btColorDead = document.getElementById("colorDead");
+var btColorBorder = document.getElementById("colorBorder");
+var btColorActive = document.getElementById("colorActive");
+var btColorGrid = document.getElementById("colorGrid");
 var btToggleSizes = document.getElementById("btToggleSizes");
 var txtHorizontal = document.getElementById("txtHorizontal");
 var txtVertical = document.getElementById("txtVertical");
@@ -502,7 +497,7 @@ function toggleColors() {
       var ctColors = document.getElementsByClassName("ct-color")[0];
 
       if (!showColors) {
-            ctColors.style.height = "120px";
+            ctColors.style.height = "158px";
             ctColors.style.padding = "4px";
             ctColors.style.border = " 1px solid #BBBBBB";
       } else {
@@ -536,26 +531,32 @@ btToggleColors.onclick = function() {
       toggleColors();
 }
 
-btColorCells.onchange = function(){
-      cellColor = btColorCells.value;
+btColorLive.onchange = function(){
+      cellColor = btColorLive.value;
       updateRender(canvX, censusManager, false);
 }
 
-btColorBG.onchange = function(){
-      gridBG = btColorBG.value;
+btColorDead.onchange = function(){
+      gridBG = btColorDead.value;
       updateRender(canvX, censusManager, false);
 }
 
-btColorPause.onchange = function(){
-      borderColorPaused = btColorPause.value;
+btColorBorder.onchange = function(){
+      borderColorPaused = btColorBorder.value;
       if (!censusManager.playActive)
             colorBorder(borderColorPaused);
 }
 
-btColorPlay.onchange = function(){
-      borderColorPlay = btColorPlay.value;
+btColorActive.onchange = function(){
+      borderColorPlay = btColorActive.value;
       if (censusManager.playActive)
             colorBorder(borderColorPlay);
+}
+
+btColorGrid.onchange = function(){
+      gridColor = btColorGrid.value;
+            drawGrid(gridColor);
+
 }
 
 btToggleSizes.onclick = function() {
