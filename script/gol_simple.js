@@ -20,17 +20,17 @@ if (oCanv.getContext)
 //*******************************
 
 // game settings
-var grid_sizeX = 120;               // number of cells across x access
-var grid_sizeY = 80;                // number of cells across y access
-var cell_size = 5;                  // size of cells in pixels
-var gridColor = '#FFFFFF';          // color of grid lines
-var gridBG = "#EEF";                // color of background
-var cellColor = '#338';             // color of live cells
-var borderColorPaused = "#556";     // color of non-interactible cell border when paused
-var borderColorPlay = "#9C9";       // color of non-interactible cell border when unpaused
-var buttonColor = document.getElementById("btPlay").style.color;
+let grid_sizeX = 120;               // number of cells across x access
+let grid_sizeY = 80;                // number of cells across y access
+let cell_size = 5;                  // size of cells in pixels
+let gridColor = '#FFFFFF';          // color of grid lines
+let gridBG = "#EEF";                // color of background
+let cellColor = '#338';             // color of live cells
+let borderColorPaused = "#556";     // color of non-interactible cell border when paused
+let borderColorPlay = "#9C9";       // color of non-interactible cell border when unpaused
+let buttonColor = document.getElementById("btPlay").style.color;
 
-var censusManager = {
+let censusManager = {
       cellGrid: [],        // Array of X columns
       toggleList: [],      // list of cells to be toggled on next step
       playSpeed: 30,       // steps per second
@@ -150,8 +150,6 @@ function updateRender(canvS, censusManager, useToggleList = true) {
                               cClearCell(canvS, x, y);
                   }
             }
-
-      // drawGrid(gridColor);
 }
 
 //==========================================================
@@ -349,7 +347,7 @@ var btSpeed20 = document.getElementById("btSpeed20");
 var btSpeed30 = document.getElementById("btSpeed30");
 var btReset = document.getElementById("btReset");
 var slPreset = document.getElementById("sl-presets");
-var btLoadPreset = document.getElementById("btLoadPreset");
+// var btLoadPreset = document.getElementById("btLoadPreset");
 var btRandom = document.getElementById("btRandom");
 var btToggleColors = document.getElementById("btToggleColors");
 var btColorLive = document.getElementById("colorLive");
