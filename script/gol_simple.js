@@ -47,7 +47,7 @@ resetGrid(censusManager);
 // core app loop - runs a single step in gol sequence
 function runSequence(censusManager = censusManager) {
       calculateNextStep(censusManager);
-      loadStep(censusManager);
+      populateCellData(censusManager);
       updateRender(canvX, censusManager);
 }
 
@@ -58,7 +58,7 @@ function calculateNextStep(censusManager = censusManager) {
 
       for (var x = 1; x < grid_sizeX - 1; x++) {
             for (var y = 1; y < grid_sizeY - 1; y++) {
-                  var liveAdj = getNeighborCount(censusManager, x, y);
+                  var liveAdj = getNeighborCount(censusManager.cellGrid, x, y);
 
                   // If this cell is alive AND live neighbors < 2 or > 3
                   if (((censusManager.cellGrid[x][y]) && ((liveAdj < 2) || (liveAdj > 3))) ||
@@ -70,23 +70,23 @@ function calculateNextStep(censusManager = censusManager) {
       }
 }
 
-function getNeighborCount(censusManager = censusManager, x, y) {
+function getNeighborCount(cellGrid = censusManager.cellGrid, x, y) {
       var liveAdj = 0;
 
-      liveAdj += (censusManager.cellGrid[x - 1][y - 1])  // check NW neighbor
-               + (censusManager.cellGrid[x    ][y - 1])  // check N neighbor
-               + (censusManager.cellGrid[x + 1][y - 1])  // check NE neighbor
-               + (censusManager.cellGrid[x - 1][y    ])  // check W neighbor
-               + (censusManager.cellGrid[x + 1][y    ])  // check E neighbor
-               + (censusManager.cellGrid[x - 1][y + 1])  // check SW neighbor
-               + (censusManager.cellGrid[x    ][y + 1])  // check S neighbor
-               + (censusManager.cellGrid[x + 1][y + 1]);  // check SE neighbor
+      liveAdj += (cellGrid[x - 1][y - 1])  // check NW neighbor
+               + (cellGrid[x    ][y - 1])  // check N neighbor
+               + (cellGrid[x + 1][y - 1])  // check NE neighbor
+               + (cellGrid[x - 1][y    ])  // check W neighbor
+               + (cellGrid[x + 1][y    ])  // check E neighbor
+               + (cellGrid[x - 1][y + 1])  // check SW neighbor
+               + (cellGrid[x    ][y + 1])  // check S neighbor
+               + (cellGrid[x + 1][y + 1]);  // check SE neighbor
 
       return liveAdj;
 }
 
 // update census data using toggle list
-function loadStep(censusManager, preset = censusManager.toggleList) {
+function populateCellData(censusManager, preset = censusManager.toggleList) {
       if (!Array.isArray(preset)) return false;
 
       preset.forEach(pElement => {
